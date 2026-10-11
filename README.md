@@ -28,13 +28,13 @@ Open the WordCraft view:
 -   Use the `WordCraft: Open view` command.
 -   Click on the WordCraft "book" icon in the side ribbon.
 
-Or insert a rhyme without leaving the editor:
+Or insert a **perfect** rhyme without leaving the editor (no near rhymes / “sounds like”):
 
 1. Put the cursor on a word (or select it).
 2. Run `WordCraft: Insert rhyme below` from the command palette.
 3. Pick a rhyme — it is inserted on the **next line**, so your seed word stays put.
 
-Themes from Settings (or the Themes field in the view) are passed to Datamuse as `topics=`, same as the sidebar.
+Themes from Settings (or the Themes field in the view) are passed to Datamuse as `topics=`, same as the sidebar. The sidebar “Rhymes with…” mode still includes near rhymes; the command does not.
 
 ## Credits
 

@@ -8,7 +8,7 @@ export class SuggestWordsModal extends SuggestModal<string> {
 		super(app);
 		this.words = words;
 		this.onChoose = onChoose;
-		this.setPlaceholder("Filter rhymes…");
+		this.setPlaceholder("Filter perfect rhymes…");
 	}
 
 	getSuggestions(query: string): string[] {

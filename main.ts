@@ -8,7 +8,7 @@ import {
 } from "obsidian";
 import WordCraftComponent from "./WordCraftView.svelte";
 import { mount, unmount } from "svelte";
-import { RHYME_MODE, fetchWords } from "./datamuse";
+import { fetchPerfectRhymes } from "./datamuse";
 import { getSeedWord, insertLineBelow } from "./editor";
 import { SuggestWordsModal } from "./SuggestWordsModal";
 import {
@@ -60,9 +60,9 @@ export default class WordCraft extends Plugin {
 			return;
 		}
 
-		let results: Awaited<ReturnType<typeof fetchWords>>;
+		let results: Awaited<ReturnType<typeof fetchPerfectRhymes>>;
 		try {
-			results = await fetchWords(seed, RHYME_MODE, this.settings.themes);
+			results = await fetchPerfectRhymes(seed, this.settings.themes);
 		} catch (error) {
 			new Notice(
 				`WordCraft — ${error instanceof Error ? error.message : error}`
@@ -70,16 +70,23 @@ export default class WordCraft extends Plugin {
 			return;
 		}
 
+		const seedKey = seed.toLowerCase();
 		const words = [
 			...new Set(
 				results
 					.map((w) => w.word)
-					.filter((w) => w && w.toLowerCase() !== seed.toLowerCase())
+					.filter(
+						(w) =>
+							!!w &&
+							w.toLowerCase() !== seedKey &&
+							// Datamuse sometimes returns multiword / punctuated noise
+							!/\s/.test(w)
+					)
 			),
 		];
 
 		if (words.length === 0) {
-			new Notice(`WordCraft — no rhymes found for “${seed}”.`);
+			new Notice(`WordCraft — no perfect rhymes for “${seed}”.`);
 			return;
 		}
 

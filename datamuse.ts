@@ -31,6 +31,26 @@ export async function fetchWords(
 	return response.json as Word[];
 }
 
+/**
+ * Perfect rhymes only (`rel_rhy`). Used by Insert rhyme below —
+ * never near rhymes / "sounds like" / non-rhymes.
+ */
+export async function fetchPerfectRhymes(
+	search: string,
+	topics = ""
+): Promise<Word[]> {
+	if (!search) return [];
+	const params = new URLSearchParams({
+		rel_rhy: search,
+		max: "500",
+		md: "fr",
+	});
+	const themes = topics.trim();
+	if (themes) params.set("topics", themes);
+	const response = await requestUrl(`${BASE_URL}?${params.toString()}`);
+	return response.json as Word[];
+}
+
 export function getPronunciation(word: Word): string {
 	for (const tag of word.tags ?? []) {
 		if (tag.startsWith("pron:")) {
